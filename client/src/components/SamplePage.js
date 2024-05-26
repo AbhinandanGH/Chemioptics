@@ -3,6 +3,9 @@ import { Link, useLocation } from "react-router-dom";
 import { jsPDF } from "jspdf";
 import "./SamplePage.css";
 
+
+
+
 const SamplePage = () => {
   const location = useLocation();
   const [name, setName] = useState('');
@@ -27,11 +30,13 @@ const SamplePage = () => {
       });
   }, []);
 
+
   const handleSampleClick = (sampleId, labCode) => {
     localStorage.setItem("selectedSampleId", sampleId);
     localStorage.setItem("selectedLabCode", labCode);
+    setName(sampleId); // Set the selected sample ID as the name
   };
-
+  
   const handleGenerateBill = () => {
     const pdf = new jsPDF({ // Creating a new instance of jsPDF
       orientation: "landscape", // Setting orientation to landscape
@@ -183,24 +188,24 @@ const SamplePage = () => {
       <ul>
         {samples.map((sample, index) => ( // Mapping over samples to display each sample
           <Link
-            key={index}
-            to={{
-              pathname: `/ticksheet/${index}`,
-              state: { sample },
-            }}
-          >
-            <li onClick={() => handleSampleClick(sample.sampleId, sample.labCode)}>
-              <div className="sampleDescription">
-                <div>
-                  Sample ID {index + 1}: <p>{sample.sampleId}</p>
-                </div>
-                <div>
-                  Lab Code: <p id="labcode">{sample.labCode}</p>
-                </div>
-                <p id="testPrice">INR: {GetTestPrice(sample.sampleId)}</p>
+          key={index}
+          to={{
+            pathname: `/ticksheet/${index}`,
+            state: { sample, name }, // Pass the name as part of the state
+          }}
+        >
+          <li onClick={() => handleSampleClick(sample.sampleId, sample.labCode)}>
+            <div className="sampleDescription">
+              <div>
+                Sample ID {index + 1}: <p>{sample.sampleId}</p>
               </div>
-            </li>
-          </Link>
+              <div>
+                Lab Code: <p id="labcode">{sample.labCode}</p>
+              </div>
+              <p id="testPrice">INR: {GetTestPrice(sample.sampleId)}</p>
+            </div>
+          </li>
+        </Link>
         ))}
       </ul>
       <div className="sampleTotal">
@@ -218,3 +223,4 @@ const SamplePage = () => {
 };
 
 export default SamplePage;
+

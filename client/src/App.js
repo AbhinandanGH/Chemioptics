@@ -6,6 +6,7 @@ import LoginPage from './components/LoginPage';
 import SignupPage from './components/SignupPage';
 import TickSheet from './components/ticksheet';
 import SamplePage from './components/SamplePage';
+import Calculation from './components/calculation';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -19,11 +20,7 @@ function App() {
 
     sessionStorage.setItem('isLoggedIn', 'true');
   };
-  // const handleLogout = () => {
-  //   setIsLoggedIn(false);
-  //   // Clear the login state from sessionStorage
-  //   sessionStorage.removeItem('isLoggedIn');
-  // };
+
 
   const handleCreateAccount = () => {
     setIsSignup(true);
@@ -71,6 +68,8 @@ function App() {
           />
 
           <Route path="/" element={isLoggedIn ? <ClientForm /> : <Navigate to="/login" replace />} />
+
+          <Route path="/calculation" element={<Calculation />} />
           
         </Routes>
       </div>
